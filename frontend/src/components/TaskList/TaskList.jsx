@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import TaskItem from "../TaskItem/TaskItem";
 import TaskForm from "../TaskForm/TaskForm";
-import { getAllTasks, editTask, addTask } from "../../services/taskService";
+import {
+  getAllTasks,
+  editTask,
+  addTask,
+  deleteTask,
+} from "../../services/taskService";
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
@@ -29,19 +34,38 @@ const TaskList = () => {
 
   const handleSubmit = async () => {
     if (taskData.id) {
+      // edit task
       try {
         const updatedTask = await editTask(taskData.id, taskData);
         console.log("Task updated:", updatedTask);
+        setTasks((prevTasks) =>
+          prevTasks.map((task) =>
+            task.id === taskData.id ? updatedTask : task
+          )
+        );
       } catch (error) {
         console.error("Error updating task:", error);
       }
     } else {
       try {
+        // add new task
         const newTask = await addTask(taskData);
         console.log("New task added:", newTask);
+        setTasks((prevTasks) => [...prevTasks, newTask]);
       } catch (error) {
         console.error("Error adding task:", error);
       }
+    }
+  };
+
+  const handleDeleteTask = async (id) => {
+    try {
+      await deleteTask(id);
+      console.log("Task deleted:", id);
+
+      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+    } catch (error) {
+      console.error("Error deleting task:", error);
     }
   };
 
@@ -91,6 +115,7 @@ const TaskList = () => {
             key={index}
             setTaskData={setTaskData}
             setShowForm={setShowForm}
+            handleDeleteTask={handleDeleteTask}
           />
         ))}
       </div>

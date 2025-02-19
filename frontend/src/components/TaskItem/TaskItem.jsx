@@ -1,14 +1,4 @@
-import { deleteTask } from "../../services/taskService";
-const TaskItem = ({ task, setTaskData, setShowForm }) => {
-  const handleDelete = async () => {
-    try {
-      const deleteRes = await deleteTask(task.id);
-      console.log("Task deleted", deleteRes);
-    } catch (error) {
-      console.error("Error deleting task:", error);
-    }
-  };
-
+const TaskItem = ({ task, setTaskData, setShowForm, handleDeleteTask }) => {
   const handleEdit = () => {
     setShowForm(true);
     setTaskData(task);
@@ -18,7 +8,7 @@ const TaskItem = ({ task, setTaskData, setShowForm }) => {
       <div className="flex w-full h-[80px] bg-[#1D1F2A] border border-gray-600 my-5 flex-col overflow-y-hidden relative">
         <div
           className="absolute top-[0px] right-[0px] w-[15px] h-[15px] flex items-center justify-center text-xs bg-red-400 cursor-pointer"
-          onClick={handleDelete}
+          onClick={() => handleDeleteTask(task.id)}
         >
           ×
         </div>
