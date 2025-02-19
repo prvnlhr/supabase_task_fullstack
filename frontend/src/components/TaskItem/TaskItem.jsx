@@ -1,5 +1,13 @@
+import { deleteTask } from "../../services/taskService";
 const TaskItem = ({ task, setTaskData, setShowForm }) => {
-  const handleDelete = () => {};
+  const handleDelete = async () => {
+    try {
+      const deleteRes = await deleteTask(task.id);
+      console.log("Task deleted", deleteRes);
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
+  };
 
   const handleEdit = () => {
     setShowForm(true);
