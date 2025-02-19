@@ -15,17 +15,17 @@ const TaskForm = ({
           name="title"
           value={taskData.title}
           onChange={handleFormDataChange}
-          className="w-full h-[30px] border p-1 text-xs outline-0"
+          className="w-full h-[30px] border border-gray-500 p-1 text-xs outline-0"
           placeholder="Title"
         />
         <textarea
           name="description"
           value={taskData.description}
           onChange={handleFormDataChange}
-          className="w-full h-[70px] border p-1 text-xs outline-0"
+          className="w-full h-[70px] border border-gray-500 p-1 text-xs outline-0"
           placeholder="Description"
         />
-        <div className="w-full h-[50px] border flex items-center justify-end overflow-hidden">
+        <div className="w-full h-[50px] border  border-gray-500 flex items-center justify-end overflow-hidden">
           <button
             onClick={handleSubmit}
             className="h-[25px] w-auto p-0 m-0 text-xs border-none outline-0 flex items-center justify-end bg-blue-400 px-5 mr-2"

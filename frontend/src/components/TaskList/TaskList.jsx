@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import TaskItem from "../TaskItem/TaskItem";
 import TaskForm from "../TaskForm/TaskForm";
 import { getAllTasks, editTask, addTask } from "../../services/taskService";
+
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
-
   const [showForm, setShowForm] = useState(false);
-
   const [taskData, setTaskData] = useState({
     title: "",
     description: "",
@@ -52,8 +51,7 @@ const TaskList = () => {
         const taskData = await getAllTasks();
         setTasks(taskData);
       } catch (err) {
-        setError("Failed to fetch task details");
-        console.error(err);
+        console.error("Failed to fetch task details:", err);
       }
     };
 
@@ -61,10 +59,11 @@ const TaskList = () => {
   }, []);
 
   return (
-    <div className="w-full h-screen md:w-[300px] md:h-[500px] bg-[#232529] relative">
+    <div className="w-full h-screen md:w-[300px] md:h-[500px] bg-[#232529] relative flex flex-col">
+      {/* Form section */}
       <div
         className={`w-full transition-all duration-300 p-2 ${
-          showForm ? "h-[150px]" : "h-[0px]"
+          showForm ? "h-[150px]" : "h-0"
         } border border-gray-500`}
       >
         <TaskForm
@@ -76,11 +75,15 @@ const TaskList = () => {
         />
       </div>
 
+      {/* Task list section */}
       <div
-        className={`flex-col
-      ${showForm ? "h-[calc(100%-150px)]" : "h-[100%]"}
-        w-full h-[calc(100%-150px)] border border-gray-500 p-2 overflow-y-scroll scrollbar-none`}
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        className={`flex-grow w-full p-2 overflow-y-scroll ${
+          showForm ? "h-[calc(100%-150px)]" : "h-full"
+        } border border-gray-500`}
+        style={{
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+        }}
       >
         {tasks.map((task, index) => (
           <TaskItem
