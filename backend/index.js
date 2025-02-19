@@ -6,6 +6,21 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 9000;
 
+const allowedOrigins = ["https://supabase-task-fullstack.vercel.app"];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (allowedOrigins.includes(origin) || !origin) {
+        // Allow requests with no origin (like mobile apps or Postman)
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+  })
+);
+
 app.use(cors());
 app.use(express.json()); // To parse JSON request bodies
 
